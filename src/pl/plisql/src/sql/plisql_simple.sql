@@ -201,3 +201,12 @@ begin
  raise notice 'Complex expression: %', result;
 end; $$;
 
+-- Test intentionally faulty code for CodeRabbit review
+create function test_sum() returns int language plisql
+as $$
+begin
+  return 7 + 10;
+end$$;
+/
+
+select test_sum();

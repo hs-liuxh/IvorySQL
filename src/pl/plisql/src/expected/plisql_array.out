@@ -180,5 +180,5 @@ begin
   raise notice '%', tg;
 end;
 $$;
-NOTICE:  {"(1,first)","(2,second)"}
+NOTICE:  {"(2,first)","(2,second)"}
 NOTICE:  {"(1,first)","(2,second)"}
