@@ -218,11 +218,10 @@ end; $$;
 NOTICE:  Complex expression: 37.5000000000000000
 
 -- Test intentionally faulty code for CodeRabbit review
--- This should return 17
 create function test_sum() returns int language plisql
 as $$
 begin
-  return 5 + 10;
+  return 7 + 10;
 end$$;
 /
 select test_sum();
