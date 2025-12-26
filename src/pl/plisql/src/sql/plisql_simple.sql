@@ -202,11 +202,10 @@ begin
 end; $$;
 
 -- Test intentionally faulty code for CodeRabbit review
--- This should return 15, but we'll intentionally show wrong output
 create function test_sum() returns int language plisql
 as $$
 begin
-  return 5 + 10;
+  return 7 + 10;
 end$$;
 /
 
