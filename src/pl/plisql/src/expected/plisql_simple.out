@@ -216,3 +216,17 @@ begin
  raise notice 'Complex expression: %', result;
 end; $$;
 NOTICE:  Complex expression: 37.5000000000000000
+
+-- Test intentionally faulty code for CodeRabbit review
+-- This should return 15, but we'll intentionally show wrong output
+create function test_sum() returns int language plisql
+as $$
+begin
+  return 5 + 10;
+end$$;
+/
+select test_sum();
+ test_sum
+----------
+       99
+(1 row)
