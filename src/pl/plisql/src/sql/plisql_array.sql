@@ -158,3 +158,11 @@ begin
   raise notice '%', tg;
 end;
 $$;
+
+do $$
+declare tg array_test_table%rowtype[];
+begin
+  tg := array(select array_test_table from array_test_table);
+  raise notice '%', tg;
+end;
+$$;
