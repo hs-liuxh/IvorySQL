@@ -66,8 +66,51 @@ SELECT pkg_defaults_test.get_with_default;
 SELECT pkg_defaults_test.get_no_default;
 SELECT pkg_defaults_test.get_text_default;
 
--- Cleanup
 DROP PACKAGE BODY pkg_defaults_test;
 DROP PACKAGE pkg_defaults_test;
+
+-- 6. Expanded-object (array) global.
+CREATE PACKAGE pkg_arr_defaults AS
+    g_arr integer[] := ARRAY[1, 2, 3];
+    FUNCTION get_arr_len RETURN NUMBER;
+    FUNCTION get_arr_first RETURN NUMBER;
+    PROCEDURE set_arr(a integer[]);
+    PROCEDURE set_elem(i integer, v integer);
+END;
+/
+
+CREATE PACKAGE BODY pkg_arr_defaults AS
+    FUNCTION get_arr_len RETURN NUMBER AS
+    BEGIN
+        RETURN cardinality(g_arr);
+    END;
+    FUNCTION get_arr_first RETURN NUMBER AS
+    BEGIN
+        RETURN g_arr[1];
+    END;
+    PROCEDURE set_arr(a integer[]) AS
+    BEGIN
+        g_arr := a;
+    END;
+    PROCEDURE set_elem(i integer, v integer) AS
+    BEGIN
+        g_arr[i] := v;
+    END;
+END;
+/
+
+SELECT pkg_arr_defaults.get_arr_len AS len, pkg_arr_defaults.get_arr_first AS first;
+
+CALL pkg_arr_defaults.set_elem(2, 99);
+CALL pkg_arr_defaults.set_arr(ARRAY[10, 20, 30, 40]);
+SELECT pkg_arr_defaults.get_arr_len AS len, pkg_arr_defaults.get_arr_first AS first;
+
+SELECT test_package_reset.reset_all_packages();
+
+SELECT pkg_arr_defaults.get_arr_len AS len, pkg_arr_defaults.get_arr_first AS first;
+
+-- Cleanup
+DROP PACKAGE BODY pkg_arr_defaults;
+DROP PACKAGE pkg_arr_defaults;
 
 DROP EXTENSION test_package_reset;
